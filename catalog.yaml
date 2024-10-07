@@ -1,0 +1,15 @@
+#%Catalog Descriptor 1.0
+contact:
+  name: 'Max Kogan'
+  email: 'maksim.kogan.work@gmail.com'
+projects:
+  - main: echo-api/api-spec/spec.yaml
+    assetId: echo-api
+    version: 1.0.0
+    apiVersion: v1
+    documentation: 
+      Home: echo-api/api-docs/home.md
+      How to Consume: echo-api/api-docs/How_to_Consume.md
+      Security: echo-api/api-docs/Security.md
+      Environment and Testing: echo-api/api-docs/Environment_and_Testing.md
+      Support: echo-api/api-docs/Support.md

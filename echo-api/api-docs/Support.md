@@ -1,0 +1,1 @@
+For developer integration inquiries, please email Mulesoft Support Team. Support is available during Pacific Standard Time. The service response time target is within 4 hours.
