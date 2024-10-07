@@ -10,7 +10,7 @@ ANYPOINT_USERNAME=$LOCAL_ENV_ANYPOINT_USERNAME
 ANYPOINT_PASSWORD=$LOCAL_ENV_ANYPOINT_PASSWORD
 FLEX_GATEWAY_NAME=flex-gateway-one
 FLEX_GATEWAY_VERSION=1.8.1
-ASSET_ID=echo-api
+ASSET_ID=echoflex-api
 ENDPOINT_URI=http://localhost:8081
 TARGET_URI=https://httpbin.org
 API_INSTANCE_DEPLOYED="false"
@@ -19,9 +19,15 @@ API_INSTANCE_DEPLOYED="false"
 
 #upload the API spec to Anypoint Exchange with Anypoint API Catalog CLI 
 ASSET_INFO=$(api-catalog publish-asset -d ./catalog.yaml --json --silent)
-
-ASSET_VERSION=$(echo $ASSET_INFO | jq -r '.projects[0].baseVersion')
-echo "Asset ID is $ASSET_ID, Asset Version is $ASSET_VERSION"
+ASSET_BASE_VERSION=$(echo $ASSET_INFO | jq -r '.projects[0].baseVersion')
+echo "Asset ID is $ASSET_ID, Asset Current Version is $ASSET_BASE_VERSION"
+ASSET_VERSION=$(echo $ASSET_INFO | jq -r '.projects[0].version' | xargs)
+if [ "$ASSET_VERSION" = "null" ]; then
+    ASSET_VERSION=$ASSET_BASE_VERSION
+    echo "Asset Version has not been increased"
+else
+    echo "Asset New Version is $ASSET_VERSION"
+fi
 
 
 
@@ -64,7 +70,7 @@ fi
 # apply policies, e.g. basic auth
 POLICY_NAME='http-basic-authentication'
 POLICY_VERSION='1.3.1'
-POLICY_CONFIG='{"username":"user","password":"teste2"}'
+POLICY_CONFIG='{"username":"user","password":"test123"}'
 
 # first verify if such policy exists already
 ALL_POLICIES=$(anypoint-cli-v4 api-mgr:policy:list $API_INSTANCE_ID --output json)
@@ -84,7 +90,7 @@ anypoint-cli-v4 api-mgr:policy:apply $API_INSTANCE_ID $POLICY_NAME \
 
 
 # (re)deploy the API to Flex Gateway
-if [ "$API_INSTANCE_STATUS" = "active" ]; then
+if [ "$API_INSTANCE_STATUS" = "active" ] || [ "$API_INSTANCE_STATUS" = "inactive" ]; then
     echo "API Instance is deployed already. Ensuring latest spec is applied: $ASSET_VERSION"
     anypoint-cli-v4 api-mgr:api:change-specification --output json $API_INSTANCE_ID $ASSET_VERSION
 else

@@ -4,7 +4,7 @@ contact:
   email: 'maksim.kogan.work@gmail.com'
 projects:
   - main: echo-api/api-spec/spec.yaml
-    assetId: echo-api
+    assetId: echoflex-api
     version: 1.0.0
     apiVersion: v1
     documentation: 

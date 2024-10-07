@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   version: '1.0.0'
-  title: echo-api
+  title: echoflex-api
   description: Echo API - An unofficial OpenAPI definition for [httpbin.org](https://httpbin.org).
 
 servers:
@@ -25,7 +25,7 @@ paths:
   # New operations for parsing time
   /:
     get:
-      summary: The current time, in a variety of formats
+      summary: The current time, in a variety of formats abra cadabra
       tags:
         - time
       servers:
